@@ -15,6 +15,11 @@ export type Pokemon = {
 
 export default function Home() {
   const [pokemon, setPokemon] = useState<Pokemon[]>([]);
+  const [filter, setFilter] = useState("");
+
+  const handleSearchChange = (e: any) => {
+    setFilter(e.target.value);
+  };
 
   useEffect(() => {
     const getAllPokemon = async () => {
@@ -56,13 +61,20 @@ export default function Home() {
   }, []);
 
   return (
-    <main className=" bg-gray-600 text-white min-h-screen text-center">
-      <header className="py-4 px-8 border-b bg-gray-600 border-white">
-        <h1 className="text-4xl font-serif"> My pokédex</h1>
+    <main className=" bg-gray-600 text-white min-h-screen">
+
+      <header className="py-4 px-8 border-b bg-gray-600 border-white flex">
+        <h1 className="text-4xl font-serif pl-3 flex-1"> My pokédex</h1>
+         
+        <div className="pt-4 -400 text-black text-right ">
+          <input onChange={handleSearchChange} type="text" id="search-input" placeholder=" Search pokemon" />
+        </div>
+
       </header>
-      <div className="grid grid-cols-3 gap-8 p-8">
-        {pokemon.map((p: Pokemon) => (
-          <InfoCard key={p.name} pokemon={p} />
+      <div className="grid grid-cols-3 gap-8 p-8 text-center">
+        {pokemon.map((p: Pokemon) => 
+        (
+          <InfoCard key={p.name} pokemon={p} filter={filter}/>
         ))}
       </div>
     </main>
